@@ -1,25 +1,22 @@
 import { useState, useEffect } from "react";
+const url = "http://localhost:3000/deps/";
 
-export async function useGetWorkers() {
-  const [workers, setWorkers] = useState(null);
-  debugger;
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let url = "http://localhost:3000/deps/";
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Error al obtener los trabajadores");
-        }
-        const data = await response.json();
-        setWorkers(data);
-      } catch (error) {
-        console.error(error);
-        setWorkers([]);
-      }
-    };
-    fetchData();
+export function useGetWorkers() {
+  const [departaments, setDepartaments] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    fetch(url)
+      .then((data) => data.json())
+      .then((data) => {
+        setDepartaments(data);
+        Array.isArray(data) && setLoading(false); // Establecer loading en falso cuando se completa la solicitud
+      });
   }, []);
 
-  return workers;
+  return {
+    departaments : departaments || [],
+    loading : loading,
+    error : null
+  };
 }
