@@ -13,15 +13,9 @@ function App() {
       {loading && <h1>Cargando</h1>}
       {error && <h1>Error</h1>}
       {departaments.length}
+      {<Listar array={departaments} />}
     </div>
   );
-
-  /*
-  return (
-    <>
-      {Array.isArray(workers) && <Listar array={workers} />}
-    </>
-  )*/
 }
 
 export default App;
